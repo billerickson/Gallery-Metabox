@@ -4,7 +4,7 @@ Plugin Name: Gallery Metabox
 Plugin URI: http://wordpress.org/extend/plugins/gallery-metabox/
 Description: Displays all the post's attached images on the Edit screen
 Author: Bill Erickson
-Version: 1.4
+Version: 1.5
 Author URI: http://www.billerickson.net
 */
 
