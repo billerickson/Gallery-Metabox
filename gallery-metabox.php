@@ -111,16 +111,16 @@ class BE_Gallery_Metabox
 	public function gallery_images( $post_id ) {
 
 		$args = array(
-			'post_type'			=> 'attachment',
-			'post_status'		=> 'inherit',
-			'post_parent'		=> $post_id,
-			'post_mime_type'	=> 'image',
-			'posts_per_page'	=> -1,
-			'order'				=> 'ASC',
-			'orderby'			=> 'menu_order',
+			'post_type'         => 'attachment',
+			'post_status'       => 'inherit',
+			'post_parent'       => $post_id,
+			'post_mime_type'    => 'image',
+			'posts_per_page'    => -1,
+			'order'             => 'ASC',
+			'orderby'           => 'menu_order',
 			);
 
-		$args	= apply_filters( 'be_gallery_metabox_args', $args );
+		$args = apply_filters( 'be_gallery_metabox_args', $args );
 
 		$images = get_posts( $args );
 
@@ -203,7 +203,7 @@ class BE_Gallery_Metabox
 	public function refresh_metabox() {
 
 		$parent	= $_POST['parent'];
-		$loop	= $this->gallery_images( $parent );
+		$loop = $this->gallery_images( $parent );
 		$images	= $this->gallery_display( $loop );
 
 		$ret = array();
@@ -233,7 +233,7 @@ class BE_Gallery_Metabox
 	public function gallery_remove() {
 
 		// content from AJAX post
-		$image	= $_POST['image'];
+		$image = $_POST['image'];
 		$parent	= $_POST['parent'];
 
 		// no image ID came through, so bail
@@ -244,8 +244,8 @@ class BE_Gallery_Metabox
 		}
 
 		// removal function
-		$remove					= array();
-		$remove['ID']			= $image;
+		$remove                 = array();
+		$remove['ID']           = $image;
 		$remove['post_parent']	= 0;
 
 		$update = wp_update_post( $remove );
@@ -256,7 +256,7 @@ class BE_Gallery_Metabox
 		if( $update !== 0 ) {
 
 			// loop to refresh the gallery
-			$loop	= $this->gallery_images( $parent );
+			$loop = $this->gallery_images( $parent );
 			$images	= $this->gallery_display( $loop );
 			// return values
 			$ret['success'] = true;
