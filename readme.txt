@@ -17,6 +17,9 @@ It's also customizable for developers (documentation).
 
 == Changelog ==
 
+= 1.5 = 
+* Fix multisite issue. See issue #3 on GitHub
+
 = 1.4 = 
 * Fixed an issue of compatiblity with other plugins
 

@@ -41,8 +41,13 @@ function be_gallery_metabox_add() {
 		if( !isset( $post_id ) ) $post_id = false;
 		
 		// Granular filter so you can limit it to single page or page template
-		if( apply_filters( 'be_gallery_metabox_limit', true, $post_id ) )
+		if( apply_filters( 'be_gallery_metabox_limit', true, $post_id ) ) {
 			add_meta_box( 'be_gallery_metabox', __( 'Gallery Images', 'gallery-metabox' ), 'be_gallery_metabox', $post_type, $context, $priority );
+			if( ! post_type_supports( $post_type, 'editor' ) ) {
+				wp_enqueue_script( 'thickbox' );
+				wp_enqueue_style( 'thickbox' );
+			}
+		}
 
 	}
 }
