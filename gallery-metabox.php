@@ -144,7 +144,7 @@ class BE_Gallery_Metabox
 		
 			$thumbnail	= wp_get_attachment_image_src( $image->ID, apply_filters( 'be_gallery_metabox_image_size', 'thumbnail' ) );
 
-			$gallery .= apply_filters( 'be_gallery_metabox_output', '<img src="' . $thumbnail[0] . '" alt="' . $image->post_title . '" rel="' . $image->ID . '" title="' . $image->post_content . '" /> ', $thumbnail[0], $image );
+			$gallery .= apply_filters( 'be_gallery_metabox_output', '<img src="' . esc_url( $thumbnail[0] ) . '" alt="' . esc_attr( $image->post_title ) . '" rel="' . esc_attr( $image->ID ) . '" title="' . esc_attr( $image->post_content ) . '" /> ', $thumbnail[0], $image );
 			// removal button
 			$gallery .= apply_filters( 'be_gallery_metabox_remove', '<span class="be-image-remove" rel="' . $image->ID .'"><img src="' . plugins_url('/lib/img/cross-circle.png', __FILE__) . '" alt="Remove Image" title="Remove Image"></span>' ); 
 		
