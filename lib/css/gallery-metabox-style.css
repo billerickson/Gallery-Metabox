@@ -2,8 +2,8 @@
 div#be_gallery_metabox div.be-image-wrapper span.be-image-remove {
 	cursor:pointer;
 	position:relative;
-	left:-10px;
-	bottom:-5px;
+	left:-40px;
+	bottom:5px;
 }
 
 div#be_gallery_metabox .be-button {

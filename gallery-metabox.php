@@ -23,6 +23,9 @@ class BE_Gallery_Metabox
 		add_action( 'add_meta_boxes',          array( $this, 'metabox_add'     )    );
 		add_action( 'wp_ajax_refresh_metabox', array( $this, 'refresh_metabox' )    );
 		add_action( 'wp_ajax_gallery_remove',  array( $this, 'gallery_remove'  )    );
+
+		add_filter('be_gallery_metabox_output', array($this, 'evidenza_img_link'), 999, 3);
+		add_filter('be_gallery_metabox_remove', array($this, 'print_evidenza_link'));
 	}
 
 	/**
@@ -57,7 +60,7 @@ class BE_Gallery_Metabox
 	 */
 	public function metabox_add() {
 		// Filterable metabox settings. 
-		$post_types		= apply_filters( 'be_gallery_metabox_post_types', array( 'post', 'page') );
+		$post_types		= apply_filters( 'be_gallery_metabox_post_types', array( 'post', 'page', 'ait-room' ) );
 		$context		= apply_filters( 'be_gallery_metabox_context', 'normal' );
 		$priority		= apply_filters( 'be_gallery_metabox_priority', 'high' );
 		
@@ -144,9 +147,9 @@ class BE_Gallery_Metabox
 		
 			$thumbnail	= wp_get_attachment_image_src( $image->ID, apply_filters( 'be_gallery_metabox_image_size', 'thumbnail' ) );
 
-			$gallery .= apply_filters( 'be_gallery_metabox_output', '<img src="' . esc_url( $thumbnail[0] ) . '" alt="' . esc_attr( $image->post_title ) . '" rel="' . esc_attr( $image->ID ) . '" title="' . esc_attr( $image->post_content ) . '" /> ', $thumbnail[0], $image );
+			$gallery .= apply_filters( 'be_gallery_metabox_output', '<img src="' . $thumbnail[0] . '" alt="' . $image->post_title . '" rel="' . $image->ID . '" title="' . $image->post_content . '" /> ', $thumbnail[0], $image );
 			// removal button
-			$gallery .= apply_filters( 'be_gallery_metabox_remove', '<span class="be-image-remove" rel="' . $image->ID .'"><img src="' . plugins_url('/lib/img/cross-circle.png', __FILE__) . '" alt="Remove Image" title="Remove Image"></span>' ); 
+			$gallery .= apply_filters( 'be_gallery_metabox_remove', '<span class="be-image-remove"><img src="' . plugins_url('/lib/img/cross-circle.png', __FILE__) . '" alt="Remove Image" class="remove" rel="' . $image->ID .'" title="Remove Image"></span>' ); 
 		
 		endforeach;
 
@@ -154,6 +157,32 @@ class BE_Gallery_Metabox
 
 		return $gallery;
 
+	}
+
+	public function evidenza_img_link($html, $thumb, $img) {
+		global $evidenza_link;
+		$calling_post_id = isset($_GET['post']) ? $_GET['post'] : $_REQUEST['parent'];
+		$attachment_id = $img->ID;
+
+		$thumbnail_id = get_post_meta( $calling_post_id, '_thumbnail_id', true );
+		if ( $img->ID != $thumbnail_id ) {
+			$ajax_nonce = wp_create_nonce( "set_post_thumbnail-$calling_post_id" );
+			$evidenza_link = "<a class='wp-post-thumbnail' id='wp-post-thumbnail-" . $attachment_id . "' href='#' onclick='WPSetAsThumbnail(\"$attachment_id\", \"$ajax_nonce\");reloadImg();return false;'>";
+			$evidenza_link .= '<img src="/wp-content/plugins/gallery-metabox/lib/img/flag-yellow.gif" alt="set Featured Image" class="featured" rel="' . $image->ID .'" title="set Featured Image" />';
+			$evidenza_link .= "</a>";
+		} else {
+			$ajax_nonce = wp_create_nonce( "set_post_thumbnail-$calling_post_id" );
+			//$evidenza_link = '<a href="#" id="remove-post-thumbnail" onclick="WPRemoveThumbnail(\'' . $ajax_nonce . '\');return false;">';
+			$evidenza_link = '<img src="/wp-content/plugins/gallery-metabox/lib/img/green-check.gif" alt="Questa è l\'immagine di copertina!" class="nofeatured" rel="' . $image->ID .'" title="OK" />';
+			//$evidenza_link .= '</a>';
+		}
+		return $html;
+	}
+
+	public function print_evidenza_link($html) {
+		global $evidenza_link;
+		$html = str_replace('<img', $evidenza_link.'<img', $html);
+		return $html;
 	}
 
 	/** 
