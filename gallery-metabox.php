@@ -172,7 +172,7 @@ class BE_Gallery_Metabox
 		$intro	= '<p class="be-metabox-links">';
 		$intro	.= '<a href="media-upload.php?post_id=' . $post_id .'&amp;type=image&amp;TB_iframe=1&amp;width=640&amp;height=715" id="add_image" class="be-button thickbox button-secondary" title="' . __( 'Add Image', 'gallery-metabox' ) . '">' . __( 'Upload Images', 'gallery-metabox' ) . '</a>';
 		$intro	.= '<a href="media-upload.php?post_id=' . $post_id .'&amp;type=image&amp;tab=gallery&amp;TB_iframe=1&amp;width=640&amp;height=715" id="manage_gallery" class="thickbox be-button button-secondary" title="' . __( 'Manage Gallery', 'gallery-metabox' ) . '">' . __( 'Manage Gallery', 'gallery-metabox' ) . '</a>';
-		$intro	.= '<input id="update-gallery" class="be-button button-secondary" type="button" value="Update Gallery" name="update-gallery"></p>';
+		$intro	.= '<input id="update-gallery" class="be-button button-secondary" type="button" value="' . __( 'Update Gallery', 'gallery-metabox' ) . '" name="update-gallery"></p>';
 		
 		$return .= apply_filters( 'be_gallery_metabox_intro', $intro );
 
@@ -180,7 +180,7 @@ class BE_Gallery_Metabox
 		$loop = $this->gallery_images( $post_id );
 
 		if( empty( $loop ) )
-			$return .= '<p>No images.</p>';
+			$return .= '<p>' . __( 'No images', 'gallery-metabox' ) . '.</p>';
 
 		$gallery = $this->gallery_display( $loop );
 
