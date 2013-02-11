@@ -17,6 +17,9 @@ It's also customizable for developers (see documentation).
 
 == Changelog ==
 
+= 1.6 = 
+* Localize theme and include Portuguese translation
+
 = 1.5 = 
 * Fix multisite issue. See issue #3 on GitHub
 * Rebuild the plugin as a class, props @norcross
