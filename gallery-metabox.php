@@ -56,19 +56,19 @@ class BE_Gallery_Metabox
 	 * @author Bill Erickson
 	 */
 	public function metabox_add() {
-		// Filterable metabox settings. 
+		// Filterable metabox settings.
 		$post_types		= apply_filters( 'be_gallery_metabox_post_types', array( 'post', 'page') );
 		$context		= apply_filters( 'be_gallery_metabox_context', 'normal' );
 		$priority		= apply_filters( 'be_gallery_metabox_priority', 'high' );
-		
+
 		// Loop through all post types
 		foreach( $post_types as $post_type ) {
-			
+
 			// Get post ID
 			if( isset( $_GET['post'] ) ) $post_id = $_GET['post'];
 			elseif( isset( $_POST['post_ID'] ) ) $post_id = $_POST['post_ID'];
 			if( !isset( $post_id ) ) $post_id = false;
-			
+
 			// Granular filter so you can limit it to single page or page template
 			if( apply_filters( 'be_gallery_metabox_limit', true, $post_id ) ) {
 				// Add Metabox
@@ -93,18 +93,18 @@ class BE_Gallery_Metabox
 	 */
 
 	public function gallery_metabox( $post ) {
-		
+
 		$original_post = $post;
 		echo $this->gallery_metabox_html( $post->ID );
 		$post = $original_post;
 	}
 
-	/** 
+	/**
 	 * Image array for gallery metabox
 	 * @since 1.3
 	 *
 	 * @param int $post_id
-	 * @return string html output 
+	 * @return string html output
 	 *
 	 * @author Bill Erickson
 	 */
@@ -128,12 +128,12 @@ class BE_Gallery_Metabox
 
 	}
 
-	/** 
+	/**
 	 * Display setup for images, which include filters and AJAX return
 	 * @since 1.3
 	 *
 	 * @param int $post_id
-	 * @return string html output 
+	 * @return string html output
 	 *
 	 * @author Bill Erickson
 	 */
@@ -141,13 +141,13 @@ class BE_Gallery_Metabox
 
 		$gallery = '<div class="be-image-wrapper">';
 		foreach( $loop as $image ):
-		
+
 			$thumbnail	= wp_get_attachment_image_src( $image->ID, apply_filters( 'be_gallery_metabox_image_size', 'thumbnail' ) );
 
 			$gallery .= apply_filters( 'be_gallery_metabox_output', '<img src="' . esc_url( $thumbnail[0] ) . '" alt="' . esc_attr( $image->post_title ) . '" rel="' . esc_attr( $image->ID ) . '" title="' . esc_attr( $image->post_content ) . '" /> ', $thumbnail[0], $image );
 			// removal button
-			$gallery .= apply_filters( 'be_gallery_metabox_remove', '<span class="be-image-remove" rel="' . $image->ID .'"><img src="' . plugins_url('/lib/img/cross-circle.png', __FILE__) . '" alt="Remove Image" title="Remove Image"></span>' ); 
-		
+			$gallery .= apply_filters( 'be_gallery_metabox_remove', '<span class="be-image-remove" rel="' . $image->ID .'"><img src="' . plugins_url('/lib/img/cross-circle.png', __FILE__) . '" alt="Remove Image" title="Remove Image"></span>' );
+
 		endforeach;
 
 		$gallery .= '</div>';
@@ -156,27 +156,28 @@ class BE_Gallery_Metabox
 
 	}
 
-	/** 
-	 * Gallery Metabox HTML 
+	/**
+	 * Gallery Metabox HTML
 	 * @since 1.3
 	 *
 	 * @param int $post_id
-	 * @return string html output 
+	 * @return string html output
 	 *
 	 * @author Bill Erickson
 	 */
 	public function gallery_metabox_html( $post_id ) {
-		
+
 		$return = '';
-		
+
 		$intro	= '<p class="be-metabox-links">';
 		$intro	.= '<a href="media-upload.php?post_id=' . $post_id .'&amp;type=image&amp;TB_iframe=1&amp;width=640&amp;height=715" id="add_image" class="be-button thickbox button-secondary" title="' . __( 'Add Image', 'gallery-metabox' ) . '">' . __( 'Upload Images', 'gallery-metabox' ) . '</a>';
 		$intro	.= '<a href="media-upload.php?post_id=' . $post_id .'&amp;type=image&amp;tab=gallery&amp;TB_iframe=1&amp;width=640&amp;height=715" id="manage_gallery" class="thickbox be-button button-secondary" title="' . __( 'Manage Gallery', 'gallery-metabox' ) . '">' . __( 'Manage Gallery', 'gallery-metabox' ) . '</a>';
 		$intro	.= '<input id="update-gallery" class="be-button button-secondary" type="button" value="' . __( 'Update Gallery', 'gallery-metabox' ) . '" name="update-gallery"></p>';
-		
+		$intro	.= '<script>jQuery(document).ready(function() { old_tb_remove = tb_remove; tb_remove = function() { jQuery("#update-gallery").click(); old_tb_remove(); }; console.log(old_tb_remove); });</script>';
+
 		$return .= apply_filters( 'be_gallery_metabox_intro', $intro );
 
-		
+
 		$loop = $this->gallery_images( $post_id );
 
 		if( empty( $loop ) )
@@ -199,7 +200,7 @@ class BE_Gallery_Metabox
 	 * @author Andrew Norcross
 	 *
 	 */
-	
+
 	public function refresh_metabox() {
 
 		$parent	= $_POST['parent'];
@@ -229,7 +230,7 @@ class BE_Gallery_Metabox
 	 * @author Andrew Norcross
 	 *
 	 */
-	
+
 	public function gallery_remove() {
 
 		// content from AJAX post
