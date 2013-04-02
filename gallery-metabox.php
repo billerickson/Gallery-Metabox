@@ -57,7 +57,7 @@ class BE_Gallery_Metabox
 	 */
 	public function metabox_add() {
 		// Filterable metabox settings.
-		$post_types		= apply_filters( 'be_gallery_metabox_post_types', array( 'post', 'page') );
+		$post_types		= apply_filters( 'be_gallery_metabox_post_types', array( 'pa_image_gallery') );
 		$context		= apply_filters( 'be_gallery_metabox_context', 'normal' );
 		$priority		= apply_filters( 'be_gallery_metabox_priority', 'high' );
 
