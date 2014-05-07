@@ -2,7 +2,7 @@
 Contributors: billerickson
 Tags: gallery, image, images, metabox
 Requires at least: 3.0
-Tested up to: 3.4.1
+Tested up to: 3.9
 Stable tag: 1.5
 
 Displays all the post's attached images on the Edit screen.
